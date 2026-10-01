@@ -10,18 +10,22 @@ namespace POE_Rich_Mtk_Asiphe_Louw
         private Level currentLevel;             //Level type variable to store the currents level's data
         private int numberOfLevels;             //Variable to hold the amount of levels the game will generate
         private int currentLevelNumber;
+        private int enemyNum;
         private Random random;
         private GameState gameState = GameState.InProgress;
+        private int movesMade;
 
         public GameEngine(int numberOfLevels)
         {
             this.numberOfLevels = numberOfLevels;
             currentLevelNumber = 1;
             random = new Random();
+            movesMade = 0;
 
             int width = random.Next(MIN_SIZE, MAX_SIZE + 1);
             int height = random.Next(MIN_SIZE, MAX_SIZE + 1);
-            currentLevel = new Level(width, height);
+            enemyNum = currentLevelNumber;
+            currentLevel = new Level(width, height, enemyNum);
         }
 
         private bool MoveHero(Direction direction)
@@ -52,7 +56,7 @@ namespace POE_Rich_Mtk_Asiphe_Louw
             }
 
             currentLevel.SwapTiles(hero, targetTile);
-            hero.UpdateVision(currentLevel);
+            currentLevel.UpdateVision(currentLevel);
             return true;
         }
 
@@ -63,12 +67,18 @@ namespace POE_Rich_Mtk_Asiphe_Louw
 
             int width = random.Next(MIN_SIZE, MAX_SIZE + 1);
             int height = random.Next(MIN_SIZE, MAX_SIZE + 1);
-            currentLevel = new Level(width, height, hero);
+            currentLevel = new Level(width, height, enemyNum, hero);
         }
 
         public void TriggerMovement(Direction direction)
         {
             MoveHero(direction);
+            movesMade++;
+
+            if (movesMade % 2 == 0)
+            {
+                MoveEnemies();
+            }
         }
 
         public override string ToString()
@@ -79,6 +89,31 @@ namespace POE_Rich_Mtk_Asiphe_Louw
             }
 
             return currentLevel.ToString();
+        }
+
+        private void MoveEnemies()
+        {
+            int i = 0;
+
+            while (i< enemyNum)
+            {
+                if (currentLevel.Enemies[i].IsDead == true)
+                {
+                    i++;
+                }
+                else
+                {
+                    if (currentLevel.Enemies[i].GetMove(out Tile tileTo) == false)
+                    {
+                        i++;
+                    }
+                    else
+                    {
+                        currentLevel.SwapTiles(currentLevel.Enemies[i], tileTo);
+                        currentLevel.UpdateVision(currentLevel);
+                    }
+                }
+            }
         }
     }
 }

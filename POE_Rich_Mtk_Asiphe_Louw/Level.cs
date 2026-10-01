@@ -11,6 +11,8 @@ namespace POE_Rich_Mtk_Asiphe_Louw
         private HeroTile hero;
         private ExitTile exit;
         private Random random;
+        private EnemyTile[] enemies;
+        private int enemyNum;
 
         public Tile[,] Tiles                    //Constructor for tile array
         {
@@ -27,12 +29,15 @@ namespace POE_Rich_Mtk_Asiphe_Louw
             get { return exit; }
         }
 
-        public Level(int width, int height, HeroTile hero = null)   //Level constructor with width taking the Y variable and Heiht taking the X variable
+        public Level(int width, int height, int enemyNum, HeroTile hero = null)   //Level constructor with width taking the Y variable and Height taking the X variable
         {
             this.width = width;
             this.height = height;
             tiles = new Tile[width, height];
             random = new Random();
+            this.enemyNum = enemyNum;
+            enemies = new EnemyTile[enemyNum];
+            int i = 0;
 
             InitialiseTiles();                                      //Calls method to initialise the level
 
@@ -53,6 +58,13 @@ namespace POE_Rich_Mtk_Asiphe_Louw
             exit = (ExitTile)CreateTile(TileType.Exit, exitPosition);
 
             this.hero.UpdateVision(this);
+
+            while (i < enemyNum)
+            {
+                Position enemyPosition = GetRandomEmptyPosition();
+                enemies[i] = (EnemyTile)CreateTile(TileType.Enemy, enemyPosition);
+                i++;
+            }
         }
 
         private enum TileType             //Enum to dictate the tiletype, such as Empty, Wall, Hero and Exit
@@ -60,7 +72,8 @@ namespace POE_Rich_Mtk_Asiphe_Louw
             Empty,
             Wall,
             Hero,
-            Exit
+            Exit,
+            Enemy
         }
 
         private Tile CreateTile(TileType tileType, Position position)   //Method to create tiles, by figuring out which tile type to make and creating a new tile class with the given position and tiletype
@@ -80,6 +93,9 @@ namespace POE_Rich_Mtk_Asiphe_Louw
                     break;
                 case TileType.Exit:
                     tile = new ExitTile(position);
+                    break;
+                case TileType.Enemy:
+                    tile = new GruntTile(position);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(tileType));
@@ -144,6 +160,23 @@ namespace POE_Rich_Mtk_Asiphe_Louw
             }
 
             return levelDisplay.ToString();
+        }
+
+        public EnemyTile[] Enemies
+        {
+            get {return enemies;}
+            set {enemies = value;}
+        }
+
+        public void UpdateVision(Level currentLevel)
+        {
+            int i = 0;
+            while (i < enemyNum)
+            {
+                enemies[i].UpdateVision(currentLevel);
+                i++;
+            }
+            hero.UpdateVision(currentLevel);
         }
     }
 }
