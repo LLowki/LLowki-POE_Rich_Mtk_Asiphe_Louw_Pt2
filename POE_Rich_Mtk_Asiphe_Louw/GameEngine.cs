@@ -95,7 +95,7 @@ namespace POE_Rich_Mtk_Asiphe_Louw
         {
             int i = 0;
 
-            while (i< enemyNum)
+            while (i < enemyNum)
             {
                 if (currentLevel.Enemies[i].IsDead == true)
                 {
@@ -111,6 +111,7 @@ namespace POE_Rich_Mtk_Asiphe_Louw
                     {
                         currentLevel.SwapTiles(currentLevel.Enemies[i], tileTo);
                         currentLevel.UpdateVision(currentLevel);
+                        i++;
                     }
                 }
             }
