@@ -16,6 +16,7 @@ namespace POE_Rich_Mtk_Asiphe_Louw
         private void UpdateDisplay()
         {
             lblDisplay.Text = gameEngine.ToString();
+            lblHeroStats.Text = "Hero HP: " + gameEngine.HeroStats;
         }
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)

@@ -91,6 +91,11 @@ namespace POE_Rich_Mtk_Asiphe_Louw
 
         public void TriggerMovement(Direction direction)
         {
+            if (gameState != GameState.InProgress)
+            {
+                return;
+            }
+
             MoveHero(direction);
             movesMade++;
 
@@ -102,14 +107,37 @@ namespace POE_Rich_Mtk_Asiphe_Louw
 
         public void TriggerAttack(Direction direction)
         {
+            if (gameState != GameState.InProgress)
+            {
+                return;
+            }
+
             if (HeroAttack(direction))
             {
                 EnemiesAttack();
+
+                if (currentLevel.Hero.IsDead)
+                {
+                    gameState = GameState.GameOver;
+                }
+            }
+        }
+
+        public string HeroStats
+        {
+            get
+            {
+                return currentLevel.Hero.HitPoints + "/" + currentLevel.Hero.MaximumHitPoints;
             }
         }
 
         public override string ToString()
         {
+            if (gameState == GameState.GameOver)
+            {
+                return "Game Over! The hero has been defeated.";
+            }
+
             if (gameState == GameState.Complete)
             {
                 return "Congratulations! You have successfully completed the game.";
