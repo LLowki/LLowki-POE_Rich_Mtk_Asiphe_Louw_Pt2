@@ -35,12 +35,11 @@ namespace POE_Rich_Mtk_Asiphe_Louw
             // 
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.label1.Location = new System.Drawing.Point(382, 171);
+            this.label1.Location = new System.Drawing.Point(382, 15);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(194, 388);
+            this.label1.Size = new System.Drawing.Size(194, 520);
             this.label1.TabIndex = 1;
-            this.label1.Text = "Use:\r\n w\r\n a s d\r\n↑\r\n← ↓ →\r\nTo move:\r\nup\r\nleft down right\r\n\r\nPlayer:\r\nAlive:     " +
-    "Dead:\r\n▼       X\r\n\r\nExit:\r\n░";
+            this.label1.Text = "MOVE\r\nW\r\nA S D\r\n\r\nATTACK\r\n↑\r\n← ↓ →\r\n\r\nPlayer\r\nAlive: ▼\r\nDead: x\r\n\r\nGrunt\r\nAlive: ϫ\r\nDead: x\r\n\r\nExit: ░";
             this.label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // Form1

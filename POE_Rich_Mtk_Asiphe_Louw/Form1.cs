@@ -20,31 +20,46 @@ namespace POE_Rich_Mtk_Asiphe_Louw
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-            Direction direction = Direction.None;
+            Direction movementDirection = Direction.None;
+            Direction attackDirection = Direction.None;
 
             switch (e.KeyCode)
             {
-                case Keys.Up:
                 case Keys.W:
-                    direction = Direction.Up;
+                    movementDirection = Direction.Up;
+                    break;
+                case Keys.D:
+                    movementDirection = Direction.Right;
+                    break;
+                case Keys.S:
+                    movementDirection = Direction.Down;
+                    break;
+                case Keys.A:
+                    movementDirection = Direction.Left;
+                    break;
+                case Keys.Up:
+                    attackDirection = Direction.Up;
                     break;
                 case Keys.Right:
-                case Keys.D:
-                    direction = Direction.Right;
+                    attackDirection = Direction.Right;
                     break;
                 case Keys.Down:
-                case Keys.S:
-                    direction = Direction.Down;
+                    attackDirection = Direction.Down;
                     break;
                 case Keys.Left:
-                case Keys.A:
-                    direction = Direction.Left;
+                    attackDirection = Direction.Left;
                     break;
             }
 
-            if (direction != Direction.None)
+            if (movementDirection != Direction.None)
             {
-                gameEngine.TriggerMovement(direction);
+                gameEngine.TriggerMovement(movementDirection);
+                UpdateDisplay();
+                e.Handled = true;
+            }
+            else if (attackDirection != Direction.None)
+            {
+                gameEngine.TriggerAttack(attackDirection);
                 UpdateDisplay();
                 e.Handled = true;
             }
