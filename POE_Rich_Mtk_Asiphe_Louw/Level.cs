@@ -57,14 +57,14 @@ namespace POE_Rich_Mtk_Asiphe_Louw
             Position exitPosition = GetRandomEmptyPosition();
             exit = (ExitTile)CreateTile(TileType.Exit, exitPosition);
 
-            this.hero.UpdateVision(this);
-
             while (i < enemyNum)
             {
                 Position enemyPosition = GetRandomEmptyPosition();
                 enemies[i] = (EnemyTile)CreateTile(TileType.Enemy, enemyPosition);
                 i++;
             }
+
+            UpdateVision(this);
         }
 
         private enum TileType             //Enum to dictate the tiletype, such as Empty, Wall, Hero and Exit

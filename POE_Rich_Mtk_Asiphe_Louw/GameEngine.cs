@@ -102,7 +102,10 @@ namespace POE_Rich_Mtk_Asiphe_Louw
 
         public void TriggerAttack(Direction direction)
         {
-            HeroAttack(direction);
+            if (HeroAttack(direction))
+            {
+                EnemiesAttack();
+            }
         }
 
         public override string ToString()
@@ -136,6 +139,27 @@ namespace POE_Rich_Mtk_Asiphe_Louw
                         currentLevel.SwapTiles(currentLevel.Enemies[i], tileTo);
                         currentLevel.UpdateVision(currentLevel);
                         i++;
+                    }
+                }
+            }
+        }
+
+        private void EnemiesAttack()
+        {
+            foreach (EnemyTile enemy in currentLevel.Enemies)
+            {
+                if (enemy == null || enemy.IsDead)
+                {
+                    continue;
+                }
+
+                CharacterTile[] targets = enemy.GetTargets();
+
+                foreach (CharacterTile target in targets)
+                {
+                    if (target != null && !target.IsDead)
+                    {
+                        enemy.Attack(target);
                     }
                 }
             }
