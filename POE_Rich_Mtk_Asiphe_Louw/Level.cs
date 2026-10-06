@@ -12,6 +12,7 @@ namespace POE_Rich_Mtk_Asiphe_Louw
         private ExitTile exit;
         private Random random;
         private EnemyTile[] enemies;
+        private PickupTile[] pickups;
         private int enemyNum;
 
         public Tile[,] Tiles                    //Constructor for tile array
@@ -29,7 +30,12 @@ namespace POE_Rich_Mtk_Asiphe_Louw
             get { return exit; }
         }
 
-        public Level(int width, int height, int enemyNum, HeroTile hero = null)   //Level constructor with width taking the Y variable and Height taking the X variable
+        public PickupTile[] Pickups
+        {
+            get { return pickups; }
+        }
+
+        public Level(int width, int height, int enemyNum, int numberOfPickups, HeroTile hero = null)   //Level constructor with width taking the Y variable and Height taking the X variable
         {
             this.width = width;
             this.height = height;
@@ -37,6 +43,7 @@ namespace POE_Rich_Mtk_Asiphe_Louw
             random = new Random();
             this.enemyNum = enemyNum;
             enemies = new EnemyTile[enemyNum];
+            pickups = new PickupTile[numberOfPickups];
             int i = 0;
 
             InitialiseTiles();                                      //Calls method to initialise the level
@@ -64,6 +71,12 @@ namespace POE_Rich_Mtk_Asiphe_Louw
                 i++;
             }
 
+            for (int pickupIndex = 0; pickupIndex < numberOfPickups; pickupIndex++)
+            {
+                Position pickupPosition = GetRandomEmptyPosition();
+                pickups[pickupIndex] = (PickupTile)CreateTile(TileType.Pickup, pickupPosition);
+            }
+
             UpdateVision(this);
         }
 
@@ -73,7 +86,8 @@ namespace POE_Rich_Mtk_Asiphe_Louw
             Wall,
             Hero,
             Exit,
-            Enemy
+            Enemy,
+            Pickup
         }
 
         private Tile CreateTile(TileType tileType, Position position)   //Method to create tiles, by figuring out which tile type to make and creating a new tile class with the given position and tiletype
@@ -96,6 +110,9 @@ namespace POE_Rich_Mtk_Asiphe_Louw
                     break;
                 case TileType.Enemy:
                     tile = new GruntTile(position);
+                    break;
+                case TileType.Pickup:
+                    tile = new HealthPickupTile(position);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(tileType));
@@ -143,6 +160,12 @@ namespace POE_Rich_Mtk_Asiphe_Louw
 
             firstTile.Position = secondPosition;
             secondTile.Position = firstPosition;
+        }
+
+        public EmptyTile ReplaceWithEmptyTile(Tile tile)
+        {
+            Position position = new Position(tile.X, tile.Y);
+            return (EmptyTile)CreateTile(TileType.Empty, position);
         }
 
         public override string ToString()

@@ -6,6 +6,7 @@ namespace POE_Rich_Mtk_Asiphe_Louw
     {
         private const int MIN_SIZE = 10;        //Minimum size that a tile row or column can be
         private const int MAX_SIZE = 20;        //Maximun size that a tile row or column can be
+        private const int NUMBER_OF_PICKUPS = 1;
 
         private Level currentLevel;             //Level type variable to store the currents level's data
         private int numberOfLevels;             //Variable to hold the amount of levels the game will generate
@@ -25,7 +26,7 @@ namespace POE_Rich_Mtk_Asiphe_Louw
             int width = random.Next(MIN_SIZE, MAX_SIZE + 1);
             int height = random.Next(MIN_SIZE, MAX_SIZE + 1);
             enemyNum = currentLevelNumber;
-            currentLevel = new Level(width, height, enemyNum);
+            currentLevel = new Level(width, height, enemyNum, NUMBER_OF_PICKUPS);
         }
 
         private bool MoveHero(Direction direction)
@@ -47,6 +48,15 @@ namespace POE_Rich_Mtk_Asiphe_Louw
                 }
 
                 NextLevel();
+                return true;
+            }
+
+            if (targetTile is PickupTile pickup)
+            {
+                pickup.ApplyEffect(hero);
+                EmptyTile replacementTile = currentLevel.ReplaceWithEmptyTile(pickup);
+                currentLevel.SwapTiles(hero, replacementTile);
+                currentLevel.UpdateVision(currentLevel);
                 return true;
             }
 
@@ -86,7 +96,7 @@ namespace POE_Rich_Mtk_Asiphe_Louw
 
             int width = random.Next(MIN_SIZE, MAX_SIZE + 1);
             int height = random.Next(MIN_SIZE, MAX_SIZE + 1);
-            currentLevel = new Level(width, height, enemyNum, hero);
+            currentLevel = new Level(width, height, enemyNum, NUMBER_OF_PICKUPS, hero);
         }
 
         public void TriggerMovement(Direction direction)

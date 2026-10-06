@@ -40,7 +40,7 @@ namespace POE_Rich_Mtk_Asiphe_Louw
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(194, 440);
             this.label1.TabIndex = 1;
-            this.label1.Text = "MOVE\r\nW\r\nA S D\r\n\r\nATTACK\r\n↑\r\n← ↓ →\r\n\r\nPlayer\r\nAlive: ▼\r\nDead: x\r\n\r\nGrunt\r\nAlive: ϫ\r\nDead: x\r\n\r\nExit: ░";
+            this.label1.Text = "MOVE\r\nW\r\nA S D\r\n\r\nATTACK\r\n↑\r\n← ↓ →\r\n\r\nPlayer\r\nAlive: ▼\r\nDead: x\r\n\r\nGrunt\r\nAlive: ϫ\r\nDead: x\r\n\r\nExit: ░\r\nHealth: +";
             this.label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             //
             // lblHeroStats
