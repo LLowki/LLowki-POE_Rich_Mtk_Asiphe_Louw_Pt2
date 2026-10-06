@@ -58,6 +58,16 @@ namespace POE_Rich_Mtk_Asiphe_Louw
             }
         }
 
+        public void Heal(int amount)
+        {
+            hitPoints += amount;
+
+            if (hitPoints > maximumHitPoints)
+            {
+                hitPoints = maximumHitPoints;
+            }
+        }
+
         public void Attack(CharacterTile target)
         {
             target.TakeDamage(attackPower);

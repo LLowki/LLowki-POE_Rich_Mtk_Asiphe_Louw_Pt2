@@ -60,6 +60,7 @@
     <Compile Include="GameEngine.cs" />
     <Compile Include="GameState.cs" />
     <Compile Include="GruntTile.cs" />
+    <Compile Include="HealthPickupTile.cs" />
     <Compile Include="HeroTile.cs" />
     <Compile Include="Level.cs" />
     <Compile Include="PickupTile.cs" />
